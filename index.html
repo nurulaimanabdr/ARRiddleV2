@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AR Riddle Game</title>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://cdn.rawgit.com/jeromeetienne/ar.js/1.7.2/aframe/build/aframe-ar.min.js"></script>
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+        font-family: sans-serif;
+      }
+      #scoreDisplay {
+        position: absolute;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: white;
+        font-size: 20px;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 10px 20px;
+        border-radius: 10px;
+      }
+      #arjsDebugUIContainer {
+        display: none !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="scoreDisplay">Score: 0</div>
+    <a-scene embedded arjs>
+      <!-- Marker -->
+      <a-marker preset="hiro">
+        <a-entity id="riddleContainer" position="0 0.5 0">
+          <a-text
+            id="riddleText"
+            value="Loading..."
+            color="#FFFFFF"
+            align="center"
+            width="2.5"
+            position="0 0.6 0"
+          ></a-text>
+
+          <!-- Answer Option 1 -->
+          <a-box
+            id="option1"
+            class="clickable"
+            position="-0.8 0 0"
+            depth="0.1"
+            height="0.3"
+            width="0.7"
+            color="#AAAAAA"
+          ></a-box>
+          <a-text
+            id="text1"
+            value=""
+            color="#000000"
+            align="center"
+            width="0.7"
+            position="-0.8 0 0.06"
+          ></a-text>
+
+          <!-- Answer Option 2 -->
+          <a-box
+            id="option2"
+            class="clickable"
+            position="0 0 0"
+            depth="0.1"
+            height="0.3"
+            width="0.7"
+            color="#AAAAAA"
+          ></a-box>
+          <a-text
+            id="text2"
+            value=""
+            color="#000000"
+            align="center"
+            width="0.7"
+            position="0 0 0.06"
+          ></a-text>
+
+          <!-- Answer Option 3 -->
+          <a-box
+            id="option3"
+            class="clickable"
+            position="0.8 0 0"
+            depth="0.1"
+            height="0.3"
+            width="0.7"
+            color="#AAAAAA"
+          ></a-box>
+          <a-text
+            id="text3"
+            value=""
+            color="#000000"
+            align="center"
+            width="0.7"
+            position="0.8 0 0.06"
+          ></a-text>
+        </a-entity>
+      </a-marker>
+
+      <!-- Camera with Cursor -->
+      <a-entity camera>
+        <a-cursor
+          fuse="true"
+          fuse-timeout="700"
+          raycaster="objects: .clickable"
+          material="color: yellow; shader: flat"
+        ></a-cursor>
+      </a-entity>
+    </a-scene>
+
+    <!-- Audio -->
+    <audio
+      id="correctSound"
+      src="https://cdn.pixabay.com/audio/2022/03/15/audio_ebfccdff5b.mp3"
+    ></audio>
+    <audio
+      id="wrongSound"
+      src="https://cdn.pixabay.com/audio/2022/03/15/audio_f0d82c871d.mp3"
+    ></audio>
+
+    <!-- Script -->
+    <script>
+  const riddles = [
+    {
+      question: "I speak without a mouth... What am I?",
+      answers: ["Shadow", "Echo", "Wind"],
+      correct: 1,
+    },
+    {
+      question: "What has to be broken before you can use it?",
+      answers: ["Egg", "Glass", "Box"],
+      correct: 0,
+    },
+    {
+      question: "I’m tall when I’m young, and I’m short when I’m old. What am I?",
+      answers: ["Candle", "Tree", "Human"],
+      correct: 0,
+    },
+    {
+      question: "What goes up but never comes down?",
+      answers: ["Smoke", "Balloon", "Age"],
+      correct: 2,
+    },
+    {
+      question: "The more you take, the more you leave behind. What are they?",
+      answers: ["Footsteps", "Memories", "Holes"],
+      correct: 0,
+    },
+  ];
+
+  let score = 0;
+  let current = 0;
+
+  const riddleText = document.getElementById("riddleText");
+  const optionBoxes = ["option1", "option2", "option3"].map((id) =>
+    document.getElementById(id)
+  );
+  const optionTexts = ["text1", "text2", "text3"].map((id) =>
+    document.getElementById(id)
+  );
+  const scoreDisplay = document.getElementById("scoreDisplay");
+  const correctSound = document.getElementById("correctSound");
+  const wrongSound = document.getElementById("wrongSound");
+
+  function shuffleRiddles() {
+    for (let i = riddles.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [riddles[i], riddles[j]] = [riddles[j], riddles[i]];
+    }
+  }
+
+  function loadRiddle(index) {
+    const r = riddles[index];
+    riddleText.setAttribute("value", r.question);
+    r.answers.forEach((text, i) => {
+      optionTexts[i].setAttribute("value", text);
+      optionBoxes[i].setAttribute("color", "#AAAAAA");
+      optionBoxes[i].setAttribute("visible", true);
+      optionTexts[i].setAttribute("visible", true);
+    });
+  }
+
+  function handleAnswer(index) {
+    const correct = riddles[current].correct;
+    if (index === correct) {
+      score++;
+      correctSound.play();
+      optionBoxes[index].setAttribute("color", "#00FF00");
+    } else {
+      wrongSound.play();
+      optionBoxes[index].setAttribute("color", "#FF0000");
+    }
+
+    scoreDisplay.textContent = "Score: " + score;
+
+    setTimeout(() => {
+      current++;
+      if (current < riddles.length) {
+        loadRiddle(current);
+      } else {
+        showWinner();
+      }
+    }, 1500);
+  }
+
+  function showWinner() {
+    riddleText.setAttribute("value", "🎉 Game Over! Your score: " + score + " / " + riddles.length);
+    optionBoxes.forEach((box) => box.setAttribute("visible", false));
+    optionTexts.forEach((text) => text.setAttribute("visible", false));
+  }
+
+  optionBoxes.forEach((box, i) => {
+    box.addEventListener("click", () => handleAnswer(i));
+  });
+
+  shuffleRiddles();
+  loadRiddle(current);
+</script>
+
+  </body>
+</html>
