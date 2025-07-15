@@ -10,6 +10,22 @@
         overflow: hidden;
         font-family: sans-serif;
       }
+
+      #instruction {
+  position: absolute;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #ffffff;
+  font-size: 16px;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 10px 15px;
+  border-radius: 8px;
+  max-width: 90%;
+  text-align: center;
+  z-index: 1;
+}
+
       #scoreDisplay {
         position: absolute;
         top: 10px;
@@ -27,6 +43,12 @@
     </style>
   </head>
   <body>
+    <div id="instruction">
+  👋 Welcome to the AR Riddle Game!<br />
+  Look at the marker to display a riddle.<br />
+  Gaze at an answer to select it. Try to score 10/10!
+</div>
+
     <div id="scoreDisplay">Score: 0</div>
     <a-scene embedded arjs>
       <!-- Marker -->
@@ -52,12 +74,13 @@
             color="#AAAAAA"
           ></a-box>
           <a-text
-            id="text1"
-            value=""
-            color="#000000"
-            align="center"
-            width="0.7"
-            position="-0.8 0 0.06"
+           id="text1"
+  value=""
+  color="#000000"
+  align="center"
+  width="1.5"
+  position="-0.8 0 0.06"
+  height="0.5"
           ></a-text>
 
           <!-- Answer Option 2 -->
@@ -71,12 +94,13 @@
             color="#AAAAAA"
           ></a-box>
           <a-text
-            id="text2"
-            value=""
-            color="#000000"
-            align="center"
-            width="0.7"
-            position="0 0 0.06"
+          id="text2"
+  value=""
+  color="#000000"
+  align="center"
+  width="1.5"
+  position="-0.8 0 0.06"
+  height="0.5"
           ></a-text>
 
           <!-- Answer Option 3 -->
@@ -91,11 +115,12 @@
           ></a-box>
           <a-text
             id="text3"
-            value=""
-            color="#000000"
-            align="center"
-            width="0.7"
-            position="0.8 0 0.06"
+  value=""
+  color="#000000"
+  align="center"
+  width="1.5"
+  position="-0.8 0 0.06"
+  height="0.5"
           ></a-text>
         </a-entity>
       </a-marker>
