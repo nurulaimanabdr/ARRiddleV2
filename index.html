@@ -117,9 +117,41 @@
     <audio id="wrongSound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_f0d82c871d.mp3"></audio>
 
     <script>
-      const fullBank = [...Array.from(document.querySelectorAll('script'))].pop().textContent.includes("Set") ? [] : [...window.fullBank];
+      const set1 = [
+        { question: "What has to be broken before you can use it?", answers: ["Egg", "Glass", "Box"], correct: 0 },
+        { question: "What goes up but never comes down?", answers: ["Smoke", "Balloon", "Age"], correct: 2 },
+        { question: "The more you take, the more you leave behind. What are they?", answers: ["Footsteps", "Memories", "Holes"], correct: 0 },
+        { question: "I’m tall when I’m young, and I’m short when I’m old. What am I?", answers: ["Candle", "Tree", "Human"], correct: 0 },
+        { question: "What has hands but can’t clap?", answers: ["Clock", "Robot", "Ghost"], correct: 0 }
+      ];
 
-      const riddles = fullBank.sort(() => 0.5 - Math.random()).slice(0, 10);
+      const set2 = [
+        { question: "What can you catch but not throw?", answers: ["Ball", "Cold", "Shadow"], correct: 1 },
+        { question: "What gets wetter the more it dries?", answers: ["Towel", "Water", "Sun"], correct: 0 },
+        { question: "What has a neck but no head?", answers: ["Shirt", "Bottle", "Snake"], correct: 1 },
+        { question: "I speak without a mouth... What am I?", answers: ["Shadow", "Echo", "Wind"], correct: 1 },
+        { question: "What comes once in a minute, twice in a moment, but never in a thousand years?", answers: ["Time", "The letter M", "Wind"], correct: 1 }
+      ];
+
+      const set3 = [
+        { question: "What has many keys but can't open a single lock?", answers: ["Piano", "Keyboard", "Map"], correct: 0 },
+        { question: "What has one eye but can’t see?", answers: ["Needle", "Storm", "Bat"], correct: 0 },
+        { question: "What begins with T, ends with T, and has T in it?", answers: ["Teapot", "Tent", "Toilet"], correct: 0 },
+        { question: "What kind of band never plays music?", answers: ["Wristband", "Rubber Band", "Headband"], correct: 1 },
+        { question: "What is full of holes but still holds water?", answers: ["Net", "Sponge", "Strainer"], correct: 1 }
+      ];
+
+      const set4 = [
+        { question: "What goes around the world but stays in a corner?", answers: ["Stamp", "Compass", "Map"], correct: 0 },
+        { question: "What invention lets you look right through a wall?", answers: ["Window", "Mirror", "Glasses"], correct: 0 },
+        { question: "What can fill a room but takes up no space?", answers: ["Air", "Light", "Sound"], correct: 1 },
+        { question: "What can travel around the world while staying in the same corner?", answers: ["Stamp", "Satellite", "Compass"], correct: 0 },
+        { question: "What runs, but never walks?", answers: ["Water", "Clock", "River"], correct: 2 }
+      ];
+
+      const allSets = [...set1, ...set2, ...set3, ...set4];
+      const riddles = allSets.sort(() => 0.5 - Math.random()).slice(0, 10);
+
       let score = 0;
       let current = 0;
       let timer;
