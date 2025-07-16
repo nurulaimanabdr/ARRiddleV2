@@ -38,54 +38,27 @@
         }
       }
 
-      #scoreDisplay,
-      #timerDisplay {
+      #scoreDisplay {
         position: absolute;
         top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
         color: white;
         font-size: 20px;
         background: rgba(0, 0, 0, 0.5);
         padding: 10px 20px;
         border-radius: 10px;
-        z-index: 2;
-      }
-
-      #scoreDisplay {
-        left: 50%;
-        transform: translateX(-50%);
       }
 
       #timerDisplay {
-        right: 20px;
-      }
-
-      #startBtn {
         position: absolute;
-        top: 60%;
-        left: 50%;
-        transform: translateX(-50%);
+        top: 10px;
+        right: 10px;
+        color: white;
         font-size: 20px;
-        padding: 10px 20px;
-        background: #28a745;
-        color: white;
-        border: none;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 10px 15px;
         border-radius: 10px;
-        z-index: 3;
-        cursor: pointer;
-      }
-
-      #countdown {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        font-size: 40px;
-        color: white;
-        background: rgba(0, 0, 0, 0.6);
-        padding: 20px;
-        border-radius: 15px;
-        z-index: 3;
-        display: none;
       }
 
       #arjsDebugUIContainer {
@@ -100,10 +73,8 @@
       Gaze at an answer to select it. Try to score 10/10!
     </div>
 
-    <div id="scoreDisplay">Score: 0 / 10</div>
-    <div id="timerDisplay">Time: 10</div>
-    <div id="countdown">Get Ready...</div>
-    <button id="startBtn">Start Game</button>
+    <div id="scoreDisplay">Score: 0</div>
+    <div id="timerDisplay">Timer: 10</div>
 
     <a-scene embedded arjs>
       <a-marker preset="hiro">
@@ -111,13 +82,13 @@
           <a-text id="riddleText" value="Loading..." color="#FFFFFF" align="center" width="2.5" position="0 0.6 0" scale="1.8 1.8 1"></a-text>
 
           <a-box id="option1" class="clickable" position="-0.8 0 0" depth="0.1" height="0.3" width="0.7" color="#AAAAAA"></a-box>
-          <a-text id="text1" value="" color="#000000" align="center" width="1.5" position="-0.8 0 0.06" scale="1.5 1.5 1"></a-text>
+          <a-text id="text1" value="" color="#000000" align="center" width="1.5" position="-0.8 0 0.06" height="0.5" scale="1.5 1.5 1"></a-text>
 
           <a-box id="option2" class="clickable" position="0 0 0" depth="0.1" height="0.3" width="0.7" color="#AAAAAA"></a-box>
-          <a-text id="text2" value="" color="#000000" align="center" width="1.5" position="0 0 0.06" scale="1.5 1.5 1"></a-text>
+          <a-text id="text2" value="" color="#000000" align="center" width="1.5" position="0 0 0.06" height="0.5" scale="1.5 1.5 1"></a-text>
 
           <a-box id="option3" class="clickable" position="0.8 0 0" depth="0.1" height="0.3" width="0.7" color="#AAAAAA"></a-box>
-          <a-text id="text3" value="" color="#000000" align="center" width="1.5" position="0.8 0 0.06" scale="1.5 1.5 1"></a-text>
+          <a-text id="text3" value="" color="#000000" align="center" width="1.5" position="0.8 0 0.06" height="0.5" scale="1.5 1.5 1"></a-text>
         </a-entity>
       </a-marker>
 
@@ -130,60 +101,53 @@
     <audio id="wrongSound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_f0d82c871d.mp3"></audio>
 
     <script>
-      const riddles = [
+      const fullBank = [
+        // Set 1
         { question: "I speak without a mouth... What am I?", answers: ["Shadow", "Echo", "Wind"], correct: 1 },
         { question: "What has to be broken before you can use it?", answers: ["Egg", "Glass", "Box"], correct: 0 },
-        { question: "I’m tall when I’m young, and I’m short when I’m old. What am I?", answers: ["Candle", "Tree", "Human"], correct: 0 },
+        { question: "I'm tall when young, short when old. What am I?", answers: ["Candle", "Tree", "Human"], correct: 0 },
         { question: "What goes up but never comes down?", answers: ["Smoke", "Balloon", "Age"], correct: 2 },
-        { question: "The more you take, the more you leave behind. What are they?", answers: ["Footsteps", "Memories", "Holes"], correct: 0 },
-        { question: "What has hands but can’t clap?", answers: ["Clock", "Robot", "Ghost"], correct: 0 },
+        { question: "The more you take, the more you leave. What are they?", answers: ["Footsteps", "Memories", "Holes"], correct: 0 },
+        // Set 2
+        { question: "What has hands but can't clap?", answers: ["Clock", "Robot", "Ghost"], correct: 0 },
         { question: "What can you catch but not throw?", answers: ["Ball", "Cold", "Shadow"], correct: 1 },
         { question: "What gets wetter the more it dries?", answers: ["Towel", "Water", "Sun"], correct: 0 },
         { question: "What has a neck but no head?", answers: ["Shirt", "Bottle", "Snake"], correct: 1 },
-        { question: "What comes once in a minute, twice in a moment, but never in a thousand years?", answers: ["Time", "The letter M", "Wind"], correct: 1 }
+        { question: "What comes once in a minute...", answers: ["Time", "The letter M", "Wind"], correct: 1 },
+        // Set 3
+        { question: "What has a face and two hands but no arms or legs?", answers: ["Clock", "Mirror", "Mask"], correct: 0 },
+        { question: "What has many keys but can't open a lock?", answers: ["Piano", "Map", "Keyboard"], correct: 0 },
+        { question: "What has one eye but can’t see?", answers: ["Needle", "Cyclops", "Potato"], correct: 0 },
+        { question: "What invention lets you look right through a wall?", answers: ["Window", "Door", "Mirror"], correct: 0 },
+        { question: "What has legs but doesn’t walk?", answers: ["Chair", "Mannequin", "Bed"], correct: 0 },
+        // Set 4
+        { question: "The more you take, the more you leave behind. What are they?", answers: ["Footsteps", "Thoughts", "Ideas"], correct: 0 },
+        { question: "What has words but never speaks?", answers: ["Book", "Radio", "Picture"], correct: 0 },
+        { question: "What can travel around the world while staying in the same corner?", answers: ["Stamp", "Cloud", "Light"], correct: 0 },
+        { question: "What has cities, but no houses; forests, but no trees; and water, but no fish?", answers: ["Map", "Imagination", "Book"], correct: 0 },
+        { question: "What can fill a room but takes up no space?", answers: ["Light", "Sound", "Smell"], correct: 0 },
+        // Set 5
+        { question: "What begins with T, ends with T, and has T in it?", answers: ["Teapot", "Tent", "Treat"], correct: 0 },
+        { question: "What is full of holes but still holds water?", answers: ["Sponge", "Bucket", "Net"], correct: 0 },
+        { question: "What comes down but never goes up?", answers: ["Rain", "Ball", "Tears"], correct: 0 },
+        { question: "What has a head, a tail, is brown, and has no legs?", answers: ["Penny", "Worm", "Stick"], correct: 0 },
+        { question: "What kind of band never plays music?", answers: ["Rubber band", "Drum circle", "Ring"], correct: 0 }
       ];
+
+      const riddles = fullBank.sort(() => 0.5 - Math.random()).slice(0, 10);
 
       let score = 0;
       let current = 0;
       let timer;
-      const timerDisplay = document.getElementById("timerDisplay");
-      const countdown = document.getElementById("countdown");
-      const startBtn = document.getElementById("startBtn");
+      let timeLeft = 10;
 
       const riddleText = document.getElementById("riddleText");
       const optionBoxes = ["option1", "option2", "option3"].map(id => document.getElementById(id));
       const optionTexts = ["text1", "text2", "text3"].map(id => document.getElementById(id));
       const scoreDisplay = document.getElementById("scoreDisplay");
+      const timerDisplay = document.getElementById("timerDisplay");
       const correctSound = document.getElementById("correctSound");
       const wrongSound = document.getElementById("wrongSound");
-
-      startBtn.addEventListener("click", () => {
-        startBtn.style.display = "none";
-        countdown.style.display = "block";
-        countdown.textContent = "Get Ready...";
-        setTimeout(() => startCountdown(3), 1000);
-      });
-
-      function startCountdown(seconds) {
-        let count = seconds;
-        const interval = setInterval(() => {
-          countdown.textContent = count;
-          if (count <= 0) {
-            clearInterval(interval);
-            countdown.style.display = "none";
-            shuffleRiddles();
-            loadRiddle(current);
-          }
-          count--;
-        }, 1000);
-      }
-
-      function shuffleRiddles() {
-        for (let i = riddles.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [riddles[i], riddles[j]] = [riddles[j], riddles[i]];
-        }
-      }
 
       function loadRiddle(index) {
         const r = riddles[index];
@@ -194,22 +158,19 @@
           optionBoxes[i].setAttribute("visible", true);
           optionTexts[i].setAttribute("visible", true);
         });
-        scoreDisplay.textContent = `Score: ${score} / ${riddles.length}`;
-        startTimer();
+        resetTimer();
       }
 
-      function startTimer() {
-        let timeLeft = 10;
-        timerDisplay.textContent = `Time: ${timeLeft}`;
-        timerDisplay.style.display = "block";
+      function resetTimer() {
+        timeLeft = 10;
+        timerDisplay.textContent = "Timer: 10";
         clearInterval(timer);
         timer = setInterval(() => {
           timeLeft--;
-          timerDisplay.textContent = `Time: ${timeLeft}`;
-          if (timeLeft <= 0) {
+          timerDisplay.textContent = "Timer: " + timeLeft;
+          if (timeLeft === 0) {
             clearInterval(timer);
-            wrongSound.play();
-            nextRiddle();
+            handleAnswer(-1);
           }
         }, 1000);
       }
@@ -220,33 +181,35 @@
         if (index === correct) {
           score++;
           correctSound.play();
-          optionBoxes[index].setAttribute("color", "#00FF00");
+          optionBoxes[index]?.setAttribute("color", "#00FF00");
         } else {
           wrongSound.play();
-          optionBoxes[index].setAttribute("color", "#FF0000");
+          if (index >= 0) optionBoxes[index]?.setAttribute("color", "#FF0000");
+          optionBoxes[correct].setAttribute("color", "#00FF00");
         }
-        setTimeout(nextRiddle, 1500);
-      }
 
-      function nextRiddle() {
-        current++;
-        if (current < riddles.length) {
-          loadRiddle(current);
-        } else {
-          showWinner();
-        }
+        scoreDisplay.textContent = `Score: ${score}`;
+
+        setTimeout(() => {
+          current++;
+          if (current < riddles.length) {
+            loadRiddle(current);
+          } else {
+            showWinner();
+          }
+        }, 1500);
       }
 
       function showWinner() {
-        riddleText.setAttribute("value", `🎉 Game Over! Your score: ${score} / ${riddles.length}`);
+        riddleText.setAttribute("value", `🎉 Game Over! Final score: ${score} / ${riddles.length}`);
         optionBoxes.forEach(box => box.setAttribute("visible", false));
         optionTexts.forEach(text => text.setAttribute("visible", false));
         timerDisplay.style.display = "none";
       }
 
-      optionBoxes.forEach((box, i) => {
-        box.addEventListener("click", () => handleAnswer(i));
-      });
+      optionBoxes.forEach((box, i) => box.addEventListener("click", () => handleAnswer(i)));
+
+      loadRiddle(current);
     </script>
   </body>
 </html>
