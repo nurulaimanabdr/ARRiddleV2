@@ -5,75 +5,131 @@
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://cdn.rawgit.com/jeromeetienne/ar.js/1.7.2/aframe/build/aframe-ar.min.js"></script>
     <style>
-      body { margin: 0; overflow: hidden; font-family: sans-serif; }
+      body {
+        margin: 0;
+        overflow: hidden;
+        font-family: sans-serif;
+      }
+
       #instruction {
         position: absolute;
-        top: 50px; left: 50%; transform: translateX(-50%);
-        color: #fff; font-size: 4vw;
-        background: rgba(0,0,0,0.6);
-        padding: 10px 15px; border-radius: 8px; max-width: 90%;
-        text-align: center; z-index: 1;
+        top: 50px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #ffffff;
+        font-size: 4vw;
+        background: rgba(0, 0, 0, 0.6);
+        padding: 10px 15px;
+        border-radius: 8px;
+        max-width: 90%;
+        text-align: center;
+        z-index: 1;
       }
-      @media (min-width: 600px) { #instruction { font-size: 18px; } }
-      @media (min-width: 1024px) { #instruction { font-size: 20px; } }
+
+      @media (min-width: 600px) {
+        #instruction {
+          font-size: 18px;
+        }
+      }
+
+      @media (min-width: 1024px) {
+        #instruction {
+          font-size: 20px;
+        }
+      }
+
       #scoreDisplay {
-        position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
-        color: white; font-size: 20px; background: rgba(0,0,0,0.5);
-        padding: 10px 20px; border-radius: 10px;
+        position: absolute;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: white;
+        font-size: 20px;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 10px 20px;
+        border-radius: 10px;
       }
+
       #timerDisplay {
-        position: absolute; top: 10px; right: 10px;
-        color: white; font-size: 20px; background: rgba(0,0,0,0.5);
-        padding: 10px 15px; border-radius: 10px;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        color: white;
+        font-size: 20px;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 10px 15px;
+        border-radius: 10px;
       }
+
       #startBtn, #restartBtn {
-        position: absolute; top: 60%; left: 50%; transform: translateX(-50%);
-        font-size: 20px; padding: 10px 20px; background: #28a745;
-        color: white; border: none; border-radius: 10px; z-index: 3; cursor: pointer;
+        position: absolute;
+        top: 60%;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 20px;
+        padding: 10px 20px;
+        background: #28a745;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        z-index: 3;
+        cursor: pointer;
       }
+
       #restartBtn {
         background: #007bff;
         display: none;
       }
-      #arjsDebugUIContainer { display: none !important; }
+
+      #arjsDebugUIContainer {
+        display: none !important;
+      }
     </style>
   </head>
   <body>
     <div id="instruction">
       👋 Welcome to the AR Riddle Game!<br />
       Look at the marker to display a riddle.<br />
-      Gaze at an answer box to select. Try to score 10/10!
+      Gaze at an answer to select it. Try to score 10/10!
     </div>
+
     <button id="startBtn">Start Game</button>
     <button id="restartBtn">Play Again</button>
     <div id="scoreDisplay" style="display:none;">Score: 0</div>
     <div id="timerDisplay" style="display:none;">Timer: 10</div>
+
     <a-scene embedded arjs>
       <a-marker preset="hiro">
         <a-entity id="riddleContainer" position="0 0.5 0">
           <a-text id="riddleText" value="" color="#FFFFFF" align="center" width="2.5" position="0 0.6 0" scale="1.8 1.8 1"></a-text>
+
           <a-box id="option1" class="clickable" position="-0.8 0 0" depth="0.1" height="0.3" width="0.7" color="#AAAAAA"></a-box>
           <a-text id="text1" value="" color="#000000" align="center" width="1.5" position="-0.8 0 0.06" height="0.5" scale="1.5 1.5 1"></a-text>
+
           <a-box id="option2" class="clickable" position="0 0 0" depth="0.1" height="0.3" width="0.7" color="#AAAAAA"></a-box>
           <a-text id="text2" value="" color="#000000" align="center" width="1.5" position="0 0 0.06" height="0.5" scale="1.5 1.5 1"></a-text>
+
           <a-box id="option3" class="clickable" position="0.8 0 0" depth="0.1" height="0.3" width="0.7" color="#AAAAAA"></a-box>
           <a-text id="text3" value="" color="#000000" align="center" width="1.5" position="0.8 0 0.06" height="0.5" scale="1.5 1.5 1"></a-text>
         </a-entity>
       </a-marker>
+
       <a-entity camera>
         <a-cursor fuse="true" fuse-timeout="700" raycaster="objects: .clickable" material="color: yellow; shader: flat"></a-cursor>
       </a-entity>
     </a-scene>
+
     <audio id="correctSound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_ebfccdff5b.mp3"></audio>
     <audio id="wrongSound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_f0d82c871d.mp3"></audio>
+
     <script>
-      // --- Riddle Sets (Added 2 new sets, total of 30 questions) ---
+      // --- Riddle Sets ---
       const set1 = [
         { question: "What has to be broken before you can use it?", answers: ["Egg", "Glass", "Box"], correct: 0 },
         { question: "What goes up but never comes down?", answers: ["Smoke", "Balloon", "Age"], correct: 2 },
         { question: "The more you take, the more you leave behind. What are they?", answers: ["Footsteps", "Memories", "Holes"], correct: 0 },
-        { question: "I’m tall when I’m young, and I’m short when I’m old. What am I?", answers: ["Candle", "Tree", "Human"], correct: 0 },
-        { question: "What has hands but can’t clap?", answers: ["Clock", "Robot", "Ghost"], correct: 0 }
+        { question: "I'm tall when I'm young, and I'm short when I'm old. What am I?", answers: ["Candle", "Tree", "Human"], correct: 0 },
+        { question: "What has hands but can't clap?", answers: ["Clock", "Robot", "Ghost"], correct: 0 }
       ];
 
       const set2 = [
@@ -86,7 +142,7 @@
 
       const set3 = [
         { question: "What has many keys but can't open a single lock?", answers: ["Piano", "Keyboard", "Map"], correct: 0 },
-        { question: "What has one eye but can’t see?", answers: ["Needle", "Storm", "Bat"], correct: 0 },
+        { question: "What has one eye but can't see?", answers: ["Needle", "Storm", "Bat"], correct: 0 },
         { question: "What begins with T, ends with T, and has T in it?", answers: ["Teapot", "Tent", "Toilet"], correct: 0 },
         { question: "What kind of band never plays music?", answers: ["Wristband", "Rubber Band", "Headband"], correct: 1 },
         { question: "What is full of holes but still holds water?", answers: ["Net", "Sponge", "Strainer"], correct: 1 }
@@ -103,9 +159,9 @@
       const set5 = [
         { question: "What has a head and a tail but no body?", answers: ["Snake", "Coin", "Worm"], correct: 1 },
         { question: "I have branches, but no fruit, trunk or leaves. What am I?", answers: ["Bank", "River", "Mountain"], correct: 0 },
-        { question: "What can’t talk but will reply when spoken to?", answers: ["Echo", "Shadow", "Ghost"], correct: 0 },
+        { question: "What can't talk but will reply when spoken to?", answers: ["Echo", "Shadow", "Ghost"], correct: 0 },
         { question: "I'm not alive, but I grow. I don't have lungs, but I need air. What am I?", answers: ["Fire", "Shadow", "River"], correct: 0 },
-        { question: "What is always in front of you but can’t be seen?", answers: ["Air", "The Future", "Mirror"], correct: 1 }
+        { question: "What is always in front of you but can't be seen?", answers: ["Air", "The Future", "Mirror"], correct: 1 }
       ];
 
       const set6 = [
@@ -117,16 +173,14 @@
       ];
 
       const allSets = [...set1, ...set2, ...set3, ...set4, ...set5, ...set6];
-      // --- End Riddle Pool ---
 
       let riddles;
       let score = 0;
       let current = 0;
       let timer;
       let timeLeft = 10;
-      let answered = false; // <-- prevent double answer
+      let answered = false; // Prevent double answer
 
-      // DOM refs
       const riddleText = document.getElementById("riddleText");
       const optionBoxes = ["option1", "option2", "option3"].map(id => document.getElementById(id));
       const optionTexts = ["text1", "text2", "text3"].map(id => document.getElementById(id));
@@ -145,7 +199,7 @@
 
       function startGame() {
         // Get 10 random riddles from the pool
-        riddles = allSets.sort(()=>0.5-Math.random()).slice(0, 10);
+        riddles = allSets.sort(() => 0.5 - Math.random()).slice(0, 10);
         score = 0;
         current = 0;
         answered = false;
@@ -188,10 +242,6 @@
         if (answered) return; // Prevent double answer/timeout
         answered = true;
         clearInterval(timer);
-        // Optionally, dim other boxes for feedback clarity
-        optionBoxes.forEach((box, i) => {
-          box.setAttribute("opacity", 0.7);
-        });
 
         const correct = riddles[current].correct;
         if (index === correct) {
@@ -207,15 +257,12 @@
 
         setTimeout(() => {
           current++;
-          optionBoxes.forEach((box, i) => {
-            box.setAttribute("opacity", 1);
-          });
           if (current < riddles.length) {
             loadRiddle(current);
           } else {
             showWinner();
           }
-        }, 1400);
+        }, 1500);
       }
 
       function showWinner() {
@@ -226,17 +273,10 @@
         restartBtn.style.display = "block";
       }
 
-      // Only allow 1 answer per question, not per click/fuse
+      // Event listeners for answer boxes
       optionBoxes.forEach((box, i) => {
         box.addEventListener("click", () => {
           if (!answered) handleAnswer(i);
-        });
-        // Optionally: add hover/fuse feedback (not required but feels good)
-        box.addEventListener("mouseenter", () => {
-          if (!answered) box.setAttribute("opacity", 0.95);
-        });
-        box.addEventListener("mouseleave", () => {
-          if (!answered) box.setAttribute("opacity", 1);
         });
       });
     </script>
