@@ -61,6 +61,21 @@
         border-radius: 10px;
       }
 
+      #startBtn {
+        position: absolute;
+        top: 60%;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 20px;
+        padding: 10px 20px;
+        background: #28a745;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        z-index: 3;
+        cursor: pointer;
+      }
+
       #arjsDebugUIContainer {
         display: none !important;
       }
@@ -73,13 +88,14 @@
       Gaze at an answer to select it. Try to score 10/10!
     </div>
 
-    <div id="scoreDisplay">Score: 0</div>
-    <div id="timerDisplay">Timer: 10</div>
+    <button id="startBtn">Start Game</button>
+    <div id="scoreDisplay" style="display:none;">Score: 0</div>
+    <div id="timerDisplay" style="display:none;">Timer: 10</div>
 
     <a-scene embedded arjs>
       <a-marker preset="hiro">
         <a-entity id="riddleContainer" position="0 0.5 0">
-          <a-text id="riddleText" value="Loading..." color="#FFFFFF" align="center" width="2.5" position="0 0.6 0" scale="1.8 1.8 1"></a-text>
+          <a-text id="riddleText" value="" color="#FFFFFF" align="center" width="2.5" position="0 0.6 0" scale="1.8 1.8 1"></a-text>
 
           <a-box id="option1" class="clickable" position="-0.8 0 0" depth="0.1" height="0.3" width="0.7" color="#AAAAAA"></a-box>
           <a-text id="text1" value="" color="#000000" align="center" width="1.5" position="-0.8 0 0.06" height="0.5" scale="1.5 1.5 1"></a-text>
@@ -101,41 +117,9 @@
     <audio id="wrongSound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_f0d82c871d.mp3"></audio>
 
     <script>
-      const fullBank = [
-        // Set 1
-        { question: "I speak without a mouth... What am I?", answers: ["Shadow", "Echo", "Wind"], correct: 1 },
-        { question: "What has to be broken before you can use it?", answers: ["Egg", "Glass", "Box"], correct: 0 },
-        { question: "I'm tall when young, short when old. What am I?", answers: ["Candle", "Tree", "Human"], correct: 0 },
-        { question: "What goes up but never comes down?", answers: ["Smoke", "Balloon", "Age"], correct: 2 },
-        { question: "The more you take, the more you leave. What are they?", answers: ["Footsteps", "Memories", "Holes"], correct: 0 },
-        // Set 2
-        { question: "What has hands but can't clap?", answers: ["Clock", "Robot", "Ghost"], correct: 0 },
-        { question: "What can you catch but not throw?", answers: ["Ball", "Cold", "Shadow"], correct: 1 },
-        { question: "What gets wetter the more it dries?", answers: ["Towel", "Water", "Sun"], correct: 0 },
-        { question: "What has a neck but no head?", answers: ["Shirt", "Bottle", "Snake"], correct: 1 },
-        { question: "What comes once in a minute...", answers: ["Time", "The letter M", "Wind"], correct: 1 },
-        // Set 3
-        { question: "What has a face and two hands but no arms or legs?", answers: ["Clock", "Mirror", "Mask"], correct: 0 },
-        { question: "What has many keys but can't open a lock?", answers: ["Piano", "Map", "Keyboard"], correct: 0 },
-        { question: "What has one eye but can’t see?", answers: ["Needle", "Cyclops", "Potato"], correct: 0 },
-        { question: "What invention lets you look right through a wall?", answers: ["Window", "Door", "Mirror"], correct: 0 },
-        { question: "What has legs but doesn’t walk?", answers: ["Chair", "Mannequin", "Bed"], correct: 0 },
-        // Set 4
-        { question: "The more you take, the more you leave behind. What are they?", answers: ["Footsteps", "Thoughts", "Ideas"], correct: 0 },
-        { question: "What has words but never speaks?", answers: ["Book", "Radio", "Picture"], correct: 0 },
-        { question: "What can travel around the world while staying in the same corner?", answers: ["Stamp", "Cloud", "Light"], correct: 0 },
-        { question: "What has cities, but no houses; forests, but no trees; and water, but no fish?", answers: ["Map", "Imagination", "Book"], correct: 0 },
-        { question: "What can fill a room but takes up no space?", answers: ["Light", "Sound", "Smell"], correct: 0 },
-        // Set 5
-        { question: "What begins with T, ends with T, and has T in it?", answers: ["Teapot", "Tent", "Treat"], correct: 0 },
-        { question: "What is full of holes but still holds water?", answers: ["Sponge", "Bucket", "Net"], correct: 0 },
-        { question: "What comes down but never goes up?", answers: ["Rain", "Ball", "Tears"], correct: 0 },
-        { question: "What has a head, a tail, is brown, and has no legs?", answers: ["Penny", "Worm", "Stick"], correct: 0 },
-        { question: "What kind of band never plays music?", answers: ["Rubber band", "Drum circle", "Ring"], correct: 0 }
-      ];
+      const fullBank = [...Array.from(document.querySelectorAll('script'))].pop().textContent.includes("Set") ? [] : [...window.fullBank];
 
       const riddles = fullBank.sort(() => 0.5 - Math.random()).slice(0, 10);
-
       let score = 0;
       let current = 0;
       let timer;
@@ -146,8 +130,16 @@
       const optionTexts = ["text1", "text2", "text3"].map(id => document.getElementById(id));
       const scoreDisplay = document.getElementById("scoreDisplay");
       const timerDisplay = document.getElementById("timerDisplay");
+      const startBtn = document.getElementById("startBtn");
       const correctSound = document.getElementById("correctSound");
       const wrongSound = document.getElementById("wrongSound");
+
+      startBtn.addEventListener("click", () => {
+        startBtn.style.display = "none";
+        scoreDisplay.style.display = "block";
+        timerDisplay.style.display = "block";
+        loadRiddle(current);
+      });
 
       function loadRiddle(index) {
         const r = riddles[index];
@@ -208,8 +200,6 @@
       }
 
       optionBoxes.forEach((box, i) => box.addEventListener("click", () => handleAnswer(i)));
-
-      loadRiddle(current);
     </script>
   </body>
 </html>
