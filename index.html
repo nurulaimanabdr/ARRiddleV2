@@ -99,7 +99,7 @@
     <div id="timerDisplay" style="display:none;">Timer: 10</div>
 
     <a-scene embedded arjs>
-      <a-marker preset="hiro">
+      <a-marker preset="hiro" size="0.7">
         <a-entity id="riddleContainer" position="0 0.5 0">
           <a-text id="riddleText" value="" color="#FFFFFF" align="center" width="2.5" position="0 0.6 0" scale="1.8 1.8 1"></a-text>
 
@@ -251,7 +251,7 @@
         } else {
           wrongSound.play();
           if (index >= 0) optionBoxes[index].setAttribute("color", "#FF0000");
-          optionBoxes[correct].setAttribute("color", "#00FF00");
+          //optionBoxes[correct].setAttribute("color", "#00FF00");
         }
         scoreDisplay.textContent = `Score: ${score}`;
 
@@ -265,13 +265,17 @@
         }, 1500);
       }
 
-      function showWinner() {
-        riddleText.setAttribute("value", `🎉 Game Over! Final score: ${score} / ${riddles.length}`);
-        optionBoxes.forEach(box => box.setAttribute("visible", false));
-        optionTexts.forEach(text => text.setAttribute("visible", false));
-        timerDisplay.style.display = "none";
-        restartBtn.style.display = "block";
-      }
+     function showWinner() {
+  if (score === riddles.length) {
+    riddleText.setAttribute("value", `🎉 Perfect! Congratulations! You scored ${score} / ${riddles.length}! 🏆`);
+  } else {
+    riddleText.setAttribute("value", `🎉 Game Over! Final score: ${score} / ${riddles.length}`);
+  }
+  optionBoxes.forEach(box => box.setAttribute("visible", false));
+  optionTexts.forEach(text => text.setAttribute("visible", false));
+  timerDisplay.style.display = "none";
+  restartBtn.style.display = "block";
+}
 
       // Event listeners for answer boxes
       optionBoxes.forEach((box, i) => {
