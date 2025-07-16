@@ -1,222 +1,252 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>AR Riddle Game</title>
-  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-  <script src="https://cdn.rawgit.com/jeromeetienne/ar.js/1.7.2/aframe/build/aframe-ar.min.js"></script>
-  <style>
-    body {
-      margin: 0;
-      overflow: hidden;
-      font-family: sans-serif;
-    }
+  <head>
+    <title>AR Riddle Game</title>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://cdn.rawgit.com/jeromeetienne/ar.js/1.7.2/aframe/build/aframe-ar.min.js"></script>
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+        font-family: sans-serif;
+      }
 
-    #scoreDisplay {
-      position: absolute;
-      top: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      color: white;
-      font-size: 20px;
-      background: rgba(0, 0, 0, 0.5);
-      padding: 10px 20px;
-      border-radius: 10px;
-      z-index: 2;
-    }
+      #instruction {
+        position: absolute;
+        top: 50px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #ffffff;
+        font-size: 4vw;
+        background: rgba(0, 0, 0, 0.6);
+        padding: 10px 15px;
+        border-radius: 8px;
+        max-width: 90%;
+        text-align: center;
+        z-index: 1;
+      }
 
-    #questionTimer {
-      position: absolute;
-      top: 10px;
-      right: 20px;
-      color: white;
-      font-size: 20px;
-      background: rgba(0, 0, 0, 0.5);
-      padding: 10px 15px;
-      border-radius: 10px;
-      display: none;
-      z-index: 2;
-    }
+      @media (min-width: 600px) {
+        #instruction {
+          font-size: 18px;
+        }
+      }
 
-    #countdown {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 48px;
-      color: white;
-      background: rgba(0, 0, 0, 0.7);
-      padding: 20px 40px;
-      border-radius: 15px;
-      display: none;
-      z-index: 3;
-    }
+      @media (min-width: 1024px) {
+        #instruction {
+          font-size: 20px;
+        }
+      }
 
-    #startBtn {
-      position: absolute;
-      top: 60%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 24px;
-      padding: 15px 30px;
-      border: none;
-      border-radius: 10px;
-      background: #007bff;
-      color: white;
-      cursor: pointer;
-      z-index: 3;
-    }
+      #scoreDisplay,
+      #timerDisplay {
+        position: absolute;
+        top: 10px;
+        color: white;
+        font-size: 20px;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 10px 20px;
+        border-radius: 10px;
+        z-index: 2;
+      }
 
-    #arjsDebugUIContainer {
-      display: none !important;
-    }
-  </style>
-</head>
-<body>
-  <div id="scoreDisplay">Score: 0 / 0</div>
-  <div id="questionTimer">Time Left: 10</div>
-  <div id="countdown">Get Ready...</div>
-  <button id="startBtn">Start Game</button>
+      #scoreDisplay {
+        left: 50%;
+        transform: translateX(-50%);
+      }
 
-  <a-scene embedded arjs>
-    <a-marker preset="hiro">
-      <a-entity id="riddleContainer" position="0 0.5 0">
-        <a-text id="riddleText" value="Loading..." color="#FFFFFF" align="center" width="2.5" position="0 0.6 0"></a-text>
+      #timerDisplay {
+        right: 20px;
+      }
 
-        <a-box id="option1" class="clickable" position="-0.8 0 0" depth="0.1" height="0.3" width="0.7" color="#AAAAAA"></a-box>
-        <a-text id="text1" value="" color="#000000" align="center" width="0.7" position="-0.8 0 0.06"></a-text>
+      #startBtn {
+        position: absolute;
+        top: 60%;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 20px;
+        padding: 10px 20px;
+        background: #28a745;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        z-index: 3;
+        cursor: pointer;
+      }
 
-        <a-box id="option2" class="clickable" position="0 0 0" depth="0.1" height="0.3" width="0.7" color="#AAAAAA"></a-box>
-        <a-text id="text2" value="" color="#000000" align="center" width="0.7" position="0 0 0.06"></a-text>
+      #countdown {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 40px;
+        color: white;
+        background: rgba(0, 0, 0, 0.6);
+        padding: 20px;
+        border-radius: 15px;
+        z-index: 3;
+        display: none;
+      }
 
-        <a-box id="option3" class="clickable" position="0.8 0 0" depth="0.1" height="0.3" width="0.7" color="#AAAAAA"></a-box>
-        <a-text id="text3" value="" color="#000000" align="center" width="0.7" position="0.8 0 0.06"></a-text>
+      #arjsDebugUIContainer {
+        display: none !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="instruction">
+      👋 Welcome to the AR Riddle Game!<br />
+      Look at the marker to display a riddle.<br />
+      Gaze at an answer to select it. Try to score 10/10!
+    </div>
+
+    <div id="scoreDisplay">Score: 0 / 10</div>
+    <div id="timerDisplay">Time: 10</div>
+    <div id="countdown">Get Ready...</div>
+    <button id="startBtn">Start Game</button>
+
+    <a-scene embedded arjs>
+      <a-marker preset="hiro">
+        <a-entity id="riddleContainer" position="0 0.5 0">
+          <a-text id="riddleText" value="Loading..." color="#FFFFFF" align="center" width="2.5" position="0 0.6 0" scale="1.8 1.8 1"></a-text>
+
+          <a-box id="option1" class="clickable" position="-0.8 0 0" depth="0.1" height="0.3" width="0.7" color="#AAAAAA"></a-box>
+          <a-text id="text1" value="" color="#000000" align="center" width="1.5" position="-0.8 0 0.06" scale="1.5 1.5 1"></a-text>
+
+          <a-box id="option2" class="clickable" position="0 0 0" depth="0.1" height="0.3" width="0.7" color="#AAAAAA"></a-box>
+          <a-text id="text2" value="" color="#000000" align="center" width="1.5" position="0 0 0.06" scale="1.5 1.5 1"></a-text>
+
+          <a-box id="option3" class="clickable" position="0.8 0 0" depth="0.1" height="0.3" width="0.7" color="#AAAAAA"></a-box>
+          <a-text id="text3" value="" color="#000000" align="center" width="1.5" position="0.8 0 0.06" scale="1.5 1.5 1"></a-text>
+        </a-entity>
+      </a-marker>
+
+      <a-entity camera>
+        <a-cursor fuse="true" fuse-timeout="700" raycaster="objects: .clickable" material="color: yellow; shader: flat"></a-cursor>
       </a-entity>
-    </a-marker>
+    </a-scene>
 
-    <a-entity camera>
-      <a-cursor
-        fuse="true"
-        fuse-timeout="700"
-        raycaster="objects: .clickable"
-        material="color: yellow; shader: flat">
-      </a-cursor>
-    </a-entity>
-  </a-scene>
+    <audio id="correctSound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_ebfccdff5b.mp3"></audio>
+    <audio id="wrongSound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_f0d82c871d.mp3"></audio>
 
-  <audio id="correctSound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_ebfccdff5b.mp3"></audio>
-  <audio id="wrongSound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_f0d82c871d.mp3"></audio>
+    <script>
+      const riddles = [
+        { question: "I speak without a mouth... What am I?", answers: ["Shadow", "Echo", "Wind"], correct: 1 },
+        { question: "What has to be broken before you can use it?", answers: ["Egg", "Glass", "Box"], correct: 0 },
+        { question: "I’m tall when I’m young, and I’m short when I’m old. What am I?", answers: ["Candle", "Tree", "Human"], correct: 0 },
+        { question: "What goes up but never comes down?", answers: ["Smoke", "Balloon", "Age"], correct: 2 },
+        { question: "The more you take, the more you leave behind. What are they?", answers: ["Footsteps", "Memories", "Holes"], correct: 0 },
+        { question: "What has hands but can’t clap?", answers: ["Clock", "Robot", "Ghost"], correct: 0 },
+        { question: "What can you catch but not throw?", answers: ["Ball", "Cold", "Shadow"], correct: 1 },
+        { question: "What gets wetter the more it dries?", answers: ["Towel", "Water", "Sun"], correct: 0 },
+        { question: "What has a neck but no head?", answers: ["Shirt", "Bottle", "Snake"], correct: 1 },
+        { question: "What comes once in a minute, twice in a moment, but never in a thousand years?", answers: ["Time", "The letter M", "Wind"], correct: 1 }
+      ];
 
-  <script>
-    const riddles = [
-      { question: "I speak without a mouth... What am I?", answers: ["Shadow", "Echo", "Wind"], correct: 1 },
-      { question: "What has to be broken before you can use it?", answers: ["Egg", "Glass", "Box"], correct: 0 },
-      { question: "I’m tall when I’m young, and I’m short when I’m old. What am I?", answers: ["Candle", "Tree", "Human"], correct: 0 },
-      { question: "What goes up but never comes down?", answers: ["Smoke", "Balloon", "Age"], correct: 2 },
-      { question: "The more you take, the more you leave behind. What are they?", answers: ["Footsteps", "Memories", "Holes"], correct: 0 }
-    ];
+      let score = 0;
+      let current = 0;
+      let timer;
+      const timerDisplay = document.getElementById("timerDisplay");
+      const countdown = document.getElementById("countdown");
+      const startBtn = document.getElementById("startBtn");
 
-    let score = 0;
-    let current = 0;
-    let timerInterval;
+      const riddleText = document.getElementById("riddleText");
+      const optionBoxes = ["option1", "option2", "option3"].map(id => document.getElementById(id));
+      const optionTexts = ["text1", "text2", "text3"].map(id => document.getElementById(id));
+      const scoreDisplay = document.getElementById("scoreDisplay");
+      const correctSound = document.getElementById("correctSound");
+      const wrongSound = document.getElementById("wrongSound");
 
-    const riddleText = document.getElementById("riddleText");
-    const optionBoxes = ["option1", "option2", "option3"].map(id => document.getElementById(id));
-    const optionTexts = ["text1", "text2", "text3"].map(id => document.getElementById(id));
-    const scoreDisplay = document.getElementById("scoreDisplay");
-    const correctSound = document.getElementById("correctSound");
-    const wrongSound = document.getElementById("wrongSound");
-    const countdown = document.getElementById("countdown");
-    const startBtn = document.getElementById("startBtn");
-    const timerDisplay = document.getElementById("questionTimer");
-
-    startBtn.addEventListener("click", () => {
-      startBtn.style.display = "none";
-      countdown.style.display = "block";
-      countdown.textContent = "Get Ready...";
-      setTimeout(() => startCountdown(3), 1000);
-    });
-
-    function startCountdown(seconds) {
-      let timeLeft = seconds;
-      const countdownInterval = setInterval(() => {
-        if (timeLeft > 0) {
-          countdown.textContent = timeLeft;
-          timeLeft--;
-        } else {
-          clearInterval(countdownInterval);
-          countdown.style.display = "none";
-          shuffleRiddles();
-          loadRiddle(current);
-        }
-      }, 1000);
-    }
-
-    function shuffleRiddles() {
-      for (let i = riddles.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [riddles[i], riddles[j]] = [riddles[j], riddles[i]];
-      }
-    }
-
-    function loadRiddle(index) {
-      const r = riddles[index];
-      riddleText.setAttribute("value", r.question);
-      r.answers.forEach((text, i) => {
-        optionTexts[i].setAttribute("value", text);
-        optionBoxes[i].setAttribute("color", "#AAAAAA");
+      startBtn.addEventListener("click", () => {
+        startBtn.style.display = "none";
+        countdown.style.display = "block";
+        countdown.textContent = "Get Ready...";
+        setTimeout(() => startCountdown(3), 1000);
       });
-      scoreDisplay.textContent = `Score: ${score} / ${riddles.length}`;
-      startQuestionTimer();
-    }
 
-    function handleAnswer(index) {
-      clearInterval(timerInterval);
-      timerDisplay.style.display = "none";
-
-      const correct = riddles[current].correct;
-      if (index === correct) {
-        score++;
-        correctSound.play();
-        optionBoxes[index].setAttribute("color", "#00FF00");
-      } else {
-        wrongSound.play();
-        optionBoxes[index].setAttribute("color", "#FF0000");
+      function startCountdown(seconds) {
+        let count = seconds;
+        const interval = setInterval(() => {
+          countdown.textContent = count;
+          if (count <= 0) {
+            clearInterval(interval);
+            countdown.style.display = "none";
+            shuffleRiddles();
+            loadRiddle(current);
+          }
+          count--;
+        }, 1000);
       }
 
-      scoreDisplay.textContent = `Score: ${score} / ${riddles.length}`;
-
-      setTimeout(() => {
-        current = (current + 1) % riddles.length;
-        loadRiddle(current);
-      }, 1500);
-    }
-
-    function startQuestionTimer() {
-      let timeLeft = 10;
-      timerDisplay.style.display = "block";
-      timerDisplay.textContent = `Time Left: ${timeLeft}`;
-      clearInterval(timerInterval);
-
-      timerInterval = setInterval(() => {
-        timeLeft--;
-        timerDisplay.textContent = `Time Left: ${timeLeft}`;
-        if (timeLeft <= 0) {
-          clearInterval(timerInterval);
-          timerDisplay.style.display = "none";
-          wrongSound.play();
-          optionBoxes.forEach((box) => box.setAttribute("color", "#FF0000"));
-          scoreDisplay.textContent = `Score: ${score} / ${riddles.length}`;
-          setTimeout(() => {
-            current = (current + 1) % riddles.length;
-            loadRiddle(current);
-          }, 1500);
+      function shuffleRiddles() {
+        for (let i = riddles.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [riddles[i], riddles[j]] = [riddles[j], riddles[i]];
         }
-      }, 1000);
-    }
+      }
 
-    optionBoxes.forEach((box, i) => {
-      box.addEventListener("click", () => handleAnswer(i));
-    });
-  </script>
-</body>
+      function loadRiddle(index) {
+        const r = riddles[index];
+        riddleText.setAttribute("value", r.question);
+        r.answers.forEach((text, i) => {
+          optionTexts[i].setAttribute("value", text);
+          optionBoxes[i].setAttribute("color", "#AAAAAA");
+          optionBoxes[i].setAttribute("visible", true);
+          optionTexts[i].setAttribute("visible", true);
+        });
+        scoreDisplay.textContent = `Score: ${score} / ${riddles.length}`;
+        startTimer();
+      }
+
+      function startTimer() {
+        let timeLeft = 10;
+        timerDisplay.textContent = `Time: ${timeLeft}`;
+        timerDisplay.style.display = "block";
+        clearInterval(timer);
+        timer = setInterval(() => {
+          timeLeft--;
+          timerDisplay.textContent = `Time: ${timeLeft}`;
+          if (timeLeft <= 0) {
+            clearInterval(timer);
+            wrongSound.play();
+            nextRiddle();
+          }
+        }, 1000);
+      }
+
+      function handleAnswer(index) {
+        clearInterval(timer);
+        const correct = riddles[current].correct;
+        if (index === correct) {
+          score++;
+          correctSound.play();
+          optionBoxes[index].setAttribute("color", "#00FF00");
+        } else {
+          wrongSound.play();
+          optionBoxes[index].setAttribute("color", "#FF0000");
+        }
+        setTimeout(nextRiddle, 1500);
+      }
+
+      function nextRiddle() {
+        current++;
+        if (current < riddles.length) {
+          loadRiddle(current);
+        } else {
+          showWinner();
+        }
+      }
+
+      function showWinner() {
+        riddleText.setAttribute("value", `🎉 Game Over! Your score: ${score} / ${riddles.length}`);
+        optionBoxes.forEach(box => box.setAttribute("visible", false));
+        optionTexts.forEach(text => text.setAttribute("visible", false));
+        timerDisplay.style.display = "none";
+      }
+
+      optionBoxes.forEach((box, i) => {
+        box.addEventListener("click", () => handleAnswer(i));
+      });
+    </script>
+  </body>
 </html>
