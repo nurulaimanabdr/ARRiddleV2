@@ -123,54 +123,53 @@
     <audio id="wrongSound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_f0d82c871d.mp3"></audio>
 
     <script>
-      // --- Riddle Sets ---
-      // --- Computing Themed Riddle Sets ---
+     // --- Riddle Sets: Computing / Tech-Themed ---
 const set1 = [
-  { question: "What stores information electronically?", answers: ["Disk", "Cache", "Monitor"], correct: 0 },
-  { question: "CPU is sometimes called the ____ of a computer.", answers: ["Brain", "Heart", "Eye"], correct: 0 },
-  { question: "A program that finds and fixes errors is called a ____.", answers: ["Debugger", "Browser", "Compiler"], correct: 0 },
-  { question: "HTML is a language for creating ____.", answers: ["Webpages", "Hardware", "Graphics"], correct: 0 },
-  { question: "The main memory in computers is called ____.", answers: ["RAM", "ROM", "USB"], correct: 0 }
+  { question: "What do you call a program’s mistake?", answers: ["Bug", "Loop", "Glitch"], correct: 0 },
+  { question: "What holds all files on your computer?", answers: ["Disk", "Monitor", "Mouse"], correct: 0 },
+  { question: "What device helps you point and click?", answers: ["Mouse", "Keyboard", "Cable"], correct: 0 },
+  { question: "What do you press to enter data?", answers: ["Enter", "Shift", "Send"], correct: 0 },
+  { question: "Which device displays pixels?", answers: ["Monitor", "Touchpad", "Printer"], correct: 0 }
 ];
 
 const set2 = [
-  { question: "A unique address for a website is called a ____.", answers: ["URL", "IP", "Domain"], correct: 0 },
-  { question: "PNG and JPEG are types of ____.", answers: ["Images", "Programs", "Files"], correct: 0 },
-  { question: "An email's subject goes in the ____.", answers: ["Header", "Body", "Footer"], correct: 0 },
-  { question: "The software that manages computer hardware is the ____.", answers: ["OS", "App", "Plugin"], correct: 0 },
-  { question: "The symbol '#' in coding often refers to a ____.", answers: ["Comment", "Variable", "Function"], correct: 0 }
+  { question: "What is a portable computer called?", answers: ["Laptop", "Server", "Smartwatch"], correct: 0 },
+  { question: "What stores your digital photos?", answers: ["Folder", "Cursor", "Code"], correct: 0 },
+  { question: "What connects your PC to the internet?", answers: ["Router", "Scanner", "Speakers"], correct: 0 },
+  { question: "What process turns code into an app?", answers: ["Compile", "Install", "Copy"], correct: 0 },
+  { question: "A private word to access an account?", answers: ["Password", "Backup", "Profile"], correct: 0 }
 ];
 
 const set3 = [
-  { question: "A bug in software is a ____.", answers: ["Error", "Feature", "Patch"], correct: 0 },
-  { question: "What does GPU stand for?", answers: ["Graphics Unit", "General Process", "Graph Protocol"], correct: 0 },
-  { question: "IP stands for Internet ____.", answers: ["Protocol", "Process", "Platform"], correct: 0 },
-  { question: "A common command line prompt symbol is ' or ____.", answers: ["#", "@", "&"], correct: 1 },
-  { question: "Software that harms your computer is called ____.", answers: ["Virus", "Cookie", "Driver"], correct: 0 }
+  { question: "What type of mail is not physical?", answers: ["Email", "Parcel", "Fax"], correct: 0 },
+  { question: "What do you call unwanted email?", answers: ["Spam", "Chat", "Feed"], correct: 0 },
+  { question: "What runs inside a web browser?", answers: ["Website", "Movie", "Wallpaper"], correct: 0 },
+  { question: "To remove a file, what do you do?", answers: ["Delete", "Open", "Print"], correct: 0 },
+  { question: "What is pictures made of tiny squares?", answers: ["Pixel", "Bitmap", "Palette"], correct: 0 }
 ];
 
 const set4 = [
-  { question: "To turn off a computer improperly is called a ____.", answers: ["Crash", "Shutdown", "Boot"], correct: 0 },
-  { question: "The first computer was called ____.", answers: ["ENIAC", "MAC", "IBM"], correct: 0 },
-  { question: "Shortcut for cutting text is Ctrl + ____.", answers: ["X", "C", "V"], correct: 0 },
-  { question: "HTTP is a protocol for ____.", answers: ["Web", "Email", "FTP"], correct: 0 },
-  { question: "A device to connect computers wirelessly is a ____.", answers: ["Router", "Modem", "Switch"], correct: 0 }
+  { question: "What stores short-term computer data?", answers: ["RAM", "SSD", "Cloud"], correct: 0 },
+  { question: "What’s the main ‘brain’ of a computer?", answers: ["CPU", "Cable", "Drive"], correct: 0 },
+  { question: "What turns electricity on & off in chips?", answers: ["Transistor", "LED", "Fan"], correct: 0 },
+  { question: "What connects two computers directly?", answers: ["Cable", "Mouse", "Code"], correct: 0 },
+  { question: "What is 1024 bytes called?", answers: ["Kilobyte", "Gigabyte", "Megabyte"], correct: 0 }
 ];
 
 const set5 = [
-  { question: "Python is a ____.", answers: ["Language", "Text editor", "Compiler"], correct: 0 },
-  { question: "An icon you click to open programs is called a ____.", answers: ["Shortcut", "Widget", "Tab"], correct: 0 },
-  { question: "The small chip that controls processing speed is the ____.", answers: ["CPU", "RAM", "GPU"], correct: 0 },
-  { question: "A 1 or 0 in computing is called a ____.", answers: ["Bit", "Byte", "Nibble"], correct: 0 },
-  { question: "Email attachments are usually ____.", answers: ["Files", "Links", "Cookies"], correct: 0 }
+  { question: "What do you use for web addresses?", answers: ["URL", "Link", "Note"], correct: 0 },
+  { question: "What plugs into a computer’s USB port?", answers: ["Flash Drive", "Speaker", "Monitor"], correct: 0 },
+  { question: "A virtual place to store internet files?", answers: ["Cloud", "Recycle Bin", "Cache"], correct: 0 },
+  { question: "What’s a program that fights malware?", answers: ["Antivirus", "Driver", "Firewall"], correct: 0 },
+  { question: "What is the symbol @ called?", answers: ["At", "Hash", "Dollar"], correct: 0 }
 ];
 
 const set6 = [
-  { question: "When a program stops unexpectedly, it ____.", answers: ["Crashes", "Freezes", "Updates"], correct: 0 },
-  { question: "USB stands for Universal ____ Bus.", answers: ["Serial", "System", "Service"], correct: 0 },
-  { question: "A device that displays output is a ____.", answers: ["Monitor", "Keyboard", "Mouse"], correct: 0 },
-  { question: "An acronym for Portable Document Format is ____.", answers: ["PDF", "PDT", "PIF"], correct: 0 },
-  { question: "A network connecting two or more computers is a ____.", answers: ["LAN", "WAN", "PAN"], correct: 0 }
+  { question: "What can protect files from loss?", answers: ["Backup", "Shortcut", "Virus"], correct: 0 },
+  { question: "What is a computer’s operating system?", answers: ["Windows", "Hardware", "Browser"], correct: 0 },
+  { question: "What is 1 and 0 in computing called?", answers: ["Binary", "Code", "Logic"], correct: 0 },
+  { question: "What is a computer’s ‘memory stick’?", answers: ["RAM", "Mouse", "Speaker"], correct: 0 },
+  { question: "What do you call malicious software?", answers: ["Virus", "Debugger", "Driver"], correct: 0 }
 ];
 
       const allSets = [...set1, ...set2, ...set3, ...set4, ...set5, ...set6];
