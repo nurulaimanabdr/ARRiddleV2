@@ -124,53 +124,54 @@
 
     <script>
       // --- Riddle Sets ---
-      const set1 = [
-        { question: "What has to be broken before you can use it?", answers: ["Egg", "Glass", "Box"], correct: 0 },
-        { question: "What goes up but never comes down?", answers: ["Smoke", "Balloon", "Age"], correct: 2 },
-        { question: "The more you take, the more you leave behind. What are they?", answers: ["Footsteps", "Memories", "Holes"], correct: 0 },
-        { question: "I'm tall when I'm young, and I'm short when I'm old. What am I?", answers: ["Candle", "Tree", "Human"], correct: 0 },
-        { question: "What has hands but can't clap?", answers: ["Clock", "Robot", "Ghost"], correct: 0 }
-      ];
+      // --- Computing Themed Riddle Sets ---
+const set1 = [
+  { question: "What stores information electronically?", answers: ["Disk", "Cache", "Monitor"], correct: 0 },
+  { question: "CPU is sometimes called the ____ of a computer.", answers: ["Brain", "Heart", "Eye"], correct: 0 },
+  { question: "A program that finds and fixes errors is called a ____.", answers: ["Debugger", "Browser", "Compiler"], correct: 0 },
+  { question: "HTML is a language for creating ____.", answers: ["Webpages", "Hardware", "Graphics"], correct: 0 },
+  { question: "The main memory in computers is called ____.", answers: ["RAM", "ROM", "USB"], correct: 0 }
+];
 
-      const set2 = [
-        { question: "What can you catch but not throw?", answers: ["Ball", "Cold", "Shadow"], correct: 1 },
-        { question: "What gets wetter the more it dries?", answers: ["Towel", "Water", "Sun"], correct: 0 },
-        { question: "What has a neck but no head?", answers: ["Shirt", "Bottle", "Snake"], correct: 1 },
-        { question: "I speak without a mouth... What am I?", answers: ["Shadow", "Echo", "Wind"], correct: 1 },
-        { question: "What comes once in a minute, twice in a moment, but never in a thousand years?", answers: ["Time", "The letter M", "Wind"], correct: 1 }
-      ];
+const set2 = [
+  { question: "A unique address for a website is called a ____.", answers: ["URL", "IP", "Domain"], correct: 0 },
+  { question: "PNG and JPEG are types of ____.", answers: ["Images", "Programs", "Files"], correct: 0 },
+  { question: "An email's subject goes in the ____.", answers: ["Header", "Body", "Footer"], correct: 0 },
+  { question: "The software that manages computer hardware is the ____.", answers: ["OS", "App", "Plugin"], correct: 0 },
+  { question: "The symbol '#' in coding often refers to a ____.", answers: ["Comment", "Variable", "Function"], correct: 0 }
+];
 
-      const set3 = [
-        { question: "What has many keys but can't open a single lock?", answers: ["Piano", "Keyboard", "Map"], correct: 0 },
-        { question: "What has one eye but can't see?", answers: ["Needle", "Storm", "Bat"], correct: 0 },
-        { question: "What begins with T, ends with T, and has T in it?", answers: ["Teapot", "Tent", "Toilet"], correct: 0 },
-        { question: "What kind of band never plays music?", answers: ["Wristband", "Rubber Band", "Headband"], correct: 1 },
-        { question: "What is full of holes but still holds water?", answers: ["Net", "Sponge", "Strainer"], correct: 1 }
-      ];
+const set3 = [
+  { question: "A bug in software is a ____.", answers: ["Error", "Feature", "Patch"], correct: 0 },
+  { question: "What does GPU stand for?", answers: ["Graphics Unit", "General Process", "Graph Protocol"], correct: 0 },
+  { question: "IP stands for Internet ____.", answers: ["Protocol", "Process", "Platform"], correct: 0 },
+  { question: "A common command line prompt symbol is ' or ____.", answers: ["#", "@", "&"], correct: 1 },
+  { question: "Software that harms your computer is called ____.", answers: ["Virus", "Cookie", "Driver"], correct: 0 }
+];
 
-      const set4 = [
-        { question: "What goes around the world but stays in a corner?", answers: ["Stamp", "Compass", "Map"], correct: 0 },
-        { question: "What invention lets you look right through a wall?", answers: ["Window", "Mirror", "Glasses"], correct: 0 },
-        { question: "What can fill a room but takes up no space?", answers: ["Air", "Light", "Sound"], correct: 1 },
-        { question: "What can travel around the world while staying in the same corner?", answers: ["Stamp", "Satellite", "Compass"], correct: 0 },
-        { question: "What runs, but never walks?", answers: ["Water", "Clock", "River"], correct: 2 }
-      ];
+const set4 = [
+  { question: "To turn off a computer improperly is called a ____.", answers: ["Crash", "Shutdown", "Boot"], correct: 0 },
+  { question: "The first computer was called ____.", answers: ["ENIAC", "MAC", "IBM"], correct: 0 },
+  { question: "Shortcut for cutting text is Ctrl + ____.", answers: ["X", "C", "V"], correct: 0 },
+  { question: "HTTP is a protocol for ____.", answers: ["Web", "Email", "FTP"], correct: 0 },
+  { question: "A device to connect computers wirelessly is a ____.", answers: ["Router", "Modem", "Switch"], correct: 0 }
+];
 
-      const set5 = [
-        { question: "What has a head and a tail but no body?", answers: ["Snake", "Coin", "Worm"], correct: 1 },
-        { question: "I have branches, but no fruit, trunk or leaves. What am I?", answers: ["Bank", "River", "Mountain"], correct: 0 },
-        { question: "What can't talk but will reply when spoken to?", answers: ["Echo", "Shadow", "Ghost"], correct: 0 },
-        { question: "I'm not alive, but I grow. I don't have lungs, but I need air. What am I?", answers: ["Fire", "Shadow", "River"], correct: 0 },
-        { question: "What is always in front of you but can't be seen?", answers: ["Air", "The Future", "Mirror"], correct: 1 }
-      ];
+const set5 = [
+  { question: "Python is a ____.", answers: ["Language", "Text editor", "Compiler"], correct: 0 },
+  { question: "An icon you click to open programs is called a ____.", answers: ["Shortcut", "Widget", "Tab"], correct: 0 },
+  { question: "The small chip that controls processing speed is the ____.", answers: ["CPU", "RAM", "GPU"], correct: 0 },
+  { question: "A 1 or 0 in computing is called a ____.", answers: ["Bit", "Byte", "Nibble"], correct: 0 },
+  { question: "Email attachments are usually ____.", answers: ["Files", "Links", "Cookies"], correct: 0 }
+];
 
-      const set6 = [
-        { question: "What comes down but never goes up?", answers: ["Rain", "Smoke", "Balloon"], correct: 0 },
-        { question: "What is so fragile that saying its name breaks it?", answers: ["Silence", "Glass", "Secret"], correct: 0 },
-        { question: "People buy me to eat, but never eat me. What am I?", answers: ["Plate", "Teeth", "Comb"], correct: 0 },
-        { question: "The more of this there is, the less you see. What is it?", answers: ["Fog", "Shadow", "Darkness"], correct: 2 },
-        { question: "What can you hold without ever touching or using your hands?", answers: ["Breath", "Promise", "Glance"], correct: 0 }
-      ];
+const set6 = [
+  { question: "When a program stops unexpectedly, it ____.", answers: ["Crashes", "Freezes", "Updates"], correct: 0 },
+  { question: "USB stands for Universal ____ Bus.", answers: ["Serial", "System", "Service"], correct: 0 },
+  { question: "A device that displays output is a ____.", answers: ["Monitor", "Keyboard", "Mouse"], correct: 0 },
+  { question: "An acronym for Portable Document Format is ____.", answers: ["PDF", "PDT", "PIF"], correct: 0 },
+  { question: "A network connecting two or more computers is a ____.", answers: ["LAN", "WAN", "PAN"], correct: 0 }
+];
 
       const allSets = [...set1, ...set2, ...set3, ...set4, ...set5, ...set6];
 
