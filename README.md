@@ -12,7 +12,7 @@ Students can play using their phone camera and the **HIRO marker**.
 
 ## 🖨 HIRO Marker
 - Print or display the marker:  
-  ![HIRO Marker](marker/hiro-marker.png)
+  ![HIRO Marker](marker/hiro-marker.jpg)
 
 ## ✏️ Edit Riddles
 Open `index.html`, find:
